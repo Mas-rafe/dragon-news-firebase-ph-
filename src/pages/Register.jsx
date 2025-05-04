@@ -1,13 +1,22 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { Link } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
     const {createUser,setUser} =use(AuthContext)
+    const [nameError,setNameError] = useState("")
     const handleRegister = (e) =>{
+        
      e.preventDefault();
      const form = e.target;
      const name = form.name.value;
+     if(name.length < 5){
+        setNameError("Name should be more than 5 words");
+        return;
+     }
+     else{
+        setNameError("")
+     }
      const photo = form.photo.value;
      const email = form.email.value;
      const password = form.password.value;
@@ -33,6 +42,9 @@ const Register = () => {
                         
                         <label className="label">Name</label>
                         <input type="text" name='name' className="input" placeholder="Your Name" required/>
+                        {
+                            nameError && <p className='text-xs text-error'>{nameError}</p>
+                        }
                        
                         <label className="label">Photo Url</label>
                         <input type="text" name='photo' className="input" placeholder="Photo url" required/>
